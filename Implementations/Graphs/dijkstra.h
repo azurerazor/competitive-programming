@@ -4,6 +4,8 @@
 * Test: https://open.kattis.com/problems/shortestpath1
 */
 
+#pragma once
+
 template<class T>
 vector<T> dijkstra(vector<vector<pair<int, T>>>& graph, int sp) {
     vector<T> d(graph.size(), -1);
