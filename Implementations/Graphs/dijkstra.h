@@ -1,5 +1,5 @@
 /*
-* Source: https://cp-algorithms.com/graph/dijkstra_sparse.html, some KACTL, some own code
+* Source: https://cp-algorithms.com/graph/dijkstra_sparse.html, some UCF hackpack, some own code
 * Desc: single source shortest path from adjacency list in O((n + m)logn)
 * Test: https://open.kattis.com/problems/shortestpath1
 */
