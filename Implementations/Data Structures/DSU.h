@@ -9,7 +9,7 @@
 struct DSU {
     vector<int> s;
     int groups;
-    void init(int n) {s = vector<int>(n, -1); groups = n;};
+    DSU(int n) {s = vector<int>(n, -1); groups = n;};
     int find(int v) { return ((s[v] < 0) ? v : s[v] = find(s[v]));}
     int size(int v) { return -s[find(v)]; }
     
