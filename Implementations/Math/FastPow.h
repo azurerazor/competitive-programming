@@ -7,14 +7,15 @@
 #pragma once
 
 typedef long long ll;
-
-ll fastPow(ll b, ll p) {
+ll fastPow(ll b, ll p, ll M = 0) {
     ll res = 1;
     while(p) {
         if(p&1) {
-            res *= b; // % MOD
+            res *= b;
+            if (M>0) res %= M;
         }
-        b *= b; // % MOD
+        b *= b;
+        if (M>0) b %= M;
         p >>= 1;
     }
     return res;
