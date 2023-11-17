@@ -7,6 +7,7 @@
 #pragma once
 
 typedef long long ll;
+
 ll fastPow(ll b, ll p, ll M = 0) {
     ll res = 1;
     while(p) {
