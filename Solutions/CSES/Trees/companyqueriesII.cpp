@@ -1,67 +1,78 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+ 
 int n, q;
 vector<vector<int>> tree;
-vector<vector<int>> up;
-vector<int> depths;
-const int LOG = 21;
-
-void dfs(int a) {
-    for (auto v : tree[a]) {
-        up[v][0] = a;
-        for (int j = 1; j < LOG; j++) {
-            up[v][j] = up[up[v][j - 1]][j - 1];
-        }
-
-        depths[v] = depths[a] + 1;
-        dfs(v);
+ 
+typedef vector<int> vi;
+typedef vector<vector<int>> vvi;
+ 
+struct bl {
+    vvi up, g; vi depth;
+    int sz, lsz;
+    bl(vvi& graph) {
+        g = graph; sz = g.size(); lsz = __lg(sz)+1;
+        depth = vi(sz);
+        up = vvi(lsz, vi(sz, 0));
+        dfs(0);
     }
-}
-
-int lca(int a, int b) {
-    if (depths[a] < depths[b]) swap(a, b);
-
-    int k = depths[a] - depths[b];
-
-    for (int j = LOG - 1; j >= 0; j--) {
-        if (k & (1 << j)) {
-            a = up[a][j];
-        }
-    }
-
-    if (a == b) return a + 1;
-
-    for (int j = LOG - 1; j >= 0; j--) {
-        if (up[a][j] != up[b][j]) {
-            a = up[a][j];
-            b = up[b][j];
+    void dfs(int a) {
+        for (auto v : g[a]) {
+            if (v == up[0][a]) continue;
+            up[0][v] = a;
+            for (int j = 1; j < lsz; j++) {
+                up[j][v] = up[j-1][up[j-1][v]];
+            }
+ 
+            depth[v] = depth[a] + 1;
+            dfs(v);
         }
     }
-
-    return up[a][0] + 1;
-}
-
+    int jump(int v, int k) {
+        int ans = v;
+        for (int i = lsz-1; i >= 0; i--) {
+            if (k & (1 << i)) {
+                ans = up[i][ans];
+            }
+        }
+        return ans;
+    }
+    int lca(int a, int b) {
+        if (depth[a] < depth[b]) swap(a, b);
+        a = jump(a, depth[a] - depth[b]);
+        if (a == b) return a;
+        for (int i = lsz-1; i >= 0; i--) {
+            if (up[i][a] != up[i][b]) {
+                a = up[i][a]; b = up[i][b];
+            }
+        }
+        return up[0][a];
+    }
+ 
+    int dist(int a, int b) { return depth[a] + depth[b] - 2 * depth[lca(a, b)]; }
+};
+ 
 int main() {
+    cin.tie(0)->sync_with_stdio(0);
+ 
     cin >> n >> q;
-
-    depths = vector<int>(n, 0);
+ 
     tree = vector<vector<int>>(n);
-    up = vector<vector<int>>(n, vector<int>(LOG));
-
+ 
     for (int i = 1; i < n; i++) {
         int a; cin >> a; a--;
-
+ 
         tree[a].push_back(i);
+        tree[i].push_back(a);
     }
-
-    dfs(0);
-
+ 
+    bl bi = bl(tree);
+ 
     while (q--) {
         int a, b;
         cin >> a >> b;
         a--; b--;
-
-        cout << lca(a, b) << endl;
+ 
+        cout << bi.lca(a, b) + 1 << '\n';
     }
 }
