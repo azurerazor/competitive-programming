@@ -11,19 +11,19 @@ typedef vector<vector<int>> vvi;
 
 struct bl {
     vvi up, g; vi depth;
-    int sz;
+    int sz, lsz;
     bl(vvi& graph) {
-        g = graph; sz = g.size();
+        g = graph; sz = g.size(); lsz = __lg(sz)+1;
         depth = vi(sz);
-        up = vvi(sz, vi(__lg(sz) + 1, 0));
+        up = vvi(lsz, vi(sz, 0));
         dfs(0);
     }
     void dfs(int a) {
         for (auto v : g[a]) {
-            if (v == up[a][0]) continue;
-            up[v][0] = a;
-            for (int j = 1; j <= __lg(sz); j++) {
-                up[v][j] = up[up[v][j - 1]][j - 1];
+            if (v == up[0][a]) continue;
+            up[0][v] = a;
+            for (int j = 1; j < lsz; j++) {
+                up[j][v] = up[j-1][up[j-1][v]];
             }
 
             depth[v] = depth[a] + 1;
@@ -32,9 +32,9 @@ struct bl {
     }
     int jump(int v, int k) {
         int ans = v;
-        for (int i = __lg(sz); i >= 0; i--) {
+        for (int i = lsz-1; i >= 0; i--) {
             if (k & (1 << i)) {
-                ans = up[ans][i];
+                ans = up[i][ans];
             }
         }
         return ans;
@@ -43,12 +43,12 @@ struct bl {
         if (depth[a] < depth[b]) swap(a, b);
         a = jump(a, depth[a] - depth[b]);
         if (a == b) return a;
-        for (int i = __lg(sz); i >= 0; i--) {
-            if (up[a][i] != up[b][i]) {
-                a = up[a][i]; b = up[b][i];
+        for (int i = lsz-1; i >= 0; i--) {
+            if (up[i][a] != up[i][b]) {
+                a = up[i][a]; b = up[i][b];
             }
         }
-        return up[a][0];
+        return up[0][a];
     }
 
     int dist(int a, int b) { return depth[a] + depth[b] - 2 * depth[lca(a, b)]; }
