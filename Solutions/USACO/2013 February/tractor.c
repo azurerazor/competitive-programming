@@ -15,11 +15,9 @@ int cmp(const void * a, const void * b) {
 }
 
 int DSU[250000];
-int DSUGroups = 0;
 
 int initSet(int v) {
     DSU[v] = -1;
-    DSUGroups++;
 }
 
 int findSet(int v) {
