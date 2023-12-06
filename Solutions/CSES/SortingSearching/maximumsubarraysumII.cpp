@@ -18,7 +18,7 @@ int main() {
 
     for (int l = a-b, r = 0; r+a <= n; l++, r++) {
         minpfx.insert(ps[r]);
-        if (l > 0) minpfx.erase(minsfx.find(ps[l-1]));
+        if (l > 0) minpfx.erase(minpfx.find(ps[l-1]));
         ans = max(ans, ps[r + a] - *minpfx.begin());
     }
 
