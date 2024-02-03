@@ -6,28 +6,26 @@
 
 #pragma once
 
-template<class T>
-vector<T> dijkstra(vector<vector<pair<int, T>>>& graph, int sp) {
-    vector<T> d(graph.size(), -1);
-    using P = pair<T, int>;
+vector<ll> dijkstra(vector<vector<pair<int, ll>>>& graph, int sp) {
+    vector<ll> dist(graph.size(), 1e15);
+    using P = pair<ll, int>;
     priority_queue<P, vector<P>, greater<P>> pq;
     pq.push({0, sp});
-    d[sp] = 0;
+    dist[sp] = 0;
 
     while (pq.size()) {
-        int c = pq.top().second;
-        int cd = pq.top().first;
+        auto [d, c] = pq.top();
         pq.pop();
 
-        if (cd != d[c]) continue;
+        if (d > dist[c]) continue;
 
         for (auto [t, w] : graph[c]) {
-            if (d[c] + w < d[t] || d[t] == -1) {
-                d[t] = d[c] + w;
-                pq.push({d[t], t});
+            if (dist[c] + w < dist[t]) {
+                dist[t] = dist[c] + w;
+                pq.push({dist[t], t});
             }
         }
     }
 
-    return d;
+    return dist;
 }
