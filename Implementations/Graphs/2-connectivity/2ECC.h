@@ -31,6 +31,7 @@ struct BCCE {
         tin[u] = low[u] = t++;
 
         for (auto v : adj[u]) {
+            // for multi-edges, add condition to check for duplicate parent edge
             if (v = p) continue;
             
             if (vis[v]) {
