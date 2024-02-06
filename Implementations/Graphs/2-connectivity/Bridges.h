@@ -1,6 +1,6 @@
 /*
 * Source: own
-* Desc: Finds bridges in a graph. Planning to add separate 2ECCs code but for now you can remove bridges from a graph to get 2ECCs.
+* Desc: Finds bridges in a graph. If looking for 2-edge CCs, check that file.
 * Test: https://cses.fi/problemset/task/2076
 */
 
