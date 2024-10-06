@@ -6,19 +6,6 @@ int n;
 ll mod;
 vector<ll> p;
 
-// ll dp(int pr, int l) {
-//     if (pr >= size(p)) return 1;
-//     if (DP[pr][l] != -1) return DP[pr][l];
-
-//     ll ans = dp(pr+1, l);
-//     for (int i = p[pr]; i <= l; i *= p[pr]) {
-//         ans += (ll) i * (dp(pr+1, l-i));
-//         ans %= mod;
-//     }
-
-//     return DP[pr][l] = ans;
-// }
-
 int main() {
     cin.tie(0)->sync_with_stdio(0);
     freopen("exercise.in", "r+", stdin);
