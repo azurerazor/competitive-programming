@@ -1,74 +1,49 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int n, m;
-vector<vector<int>> graph;
+#define all(x) begin(x), end(x)
+#define sz(x) (int)(x).size()
+typedef long long ll;
 
-pair<bool, vector<int>> twoColor() {
-    vector<int> colors(n, -1);
-    queue<int> q;
-    int visNodes = 0;
-
-    bool colorable = true;
-
-    q.push(0);
-    colors[0] = 0;
-
-    while (visNodes < n) {
-        while (q.size()) {
-            int c = q.front();
-            q.pop();
-            visNodes++;
-
-            for (auto v : graph[c]) {
-                if (colors[v] == -1) {
-                    colors[v] = !colors[c];
-                    q.push(v);
-                } else if (colors[v] == colors[c]) {
-                    colorable = false;
-                    break;
-                }
-            }
-
-            if (!colorable) break;
-        }
-
-        if (!colorable) break;
-
-        for (int i = 0; i < n; i++) {
-            if (colors[i] == -1) {
-                q.push(i);
-                colors[i] = 0;
-                break;
-            }
-        }
-    }
-
-    return {colorable, colors};
+vector<int> TwoColor(vector<vector<int>>& graph) {
+	int n = sz(graph);
+	vector<int> col(n, -1);
+	queue<int> q;
+	for (int i = 0; i < n; i++) {
+		if (col[i] == -1) q.push(i), col[i] = 0;
+		while (q.size()) {
+			int u = q.front(); q.pop();
+			for (auto v : graph[u]) {
+				if (col[v] == col[u]) return {};
+				if (col[v] == -1) {
+					col[v] = !col[u]; // inverts color
+					q.push(v);
+				}
+			}
+		}
+	}
+	return col;
 }
 
 int main() {
+    cin.tie(0)->sync_with_stdio(0);
+
+    int n, m;
     cin >> n >> m;
 
-    graph = vector<vector<int>>(n);
+    vector<vector<int>> graph(n);
 
     for (int i = 0; i < m; i++) {
-        int a, b; cin >> a >> b;
-        a--; b--;
-
-        graph[a].push_back(b);
-        graph[b].push_back(a);
+        int u, v;
+        cin >> u >> v;
+        u--; v--;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
     }
 
-    pair<bool, vector<int>> colors = twoColor();
+    vector<int> col = TwoColor(graph);
 
-    if (colors.first) {
-        for (int i = 0; i < n; i++) {
-            cout << colors.second[i] + 1 << " ";
-        }
-
-        cout << endl;
-    } else {
-        cout << "IMPOSSIBLE" << endl;
-    }
+    if (col.empty()) cout << "IMPOSSIBLE\n";
+    else for (auto v : col) cout << v+1 << ' ';
+    return 0;
 }
