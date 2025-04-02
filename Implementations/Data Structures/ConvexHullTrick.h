@@ -24,14 +24,15 @@ struct CHT {
     deque<Line<T>> q;
     void insert(T m, T b) {
         Line<T> v(m, b);
-        while (sz(q) > 1 && v.isect(q.back()) <= q.back().isect(q[sz(q)-2])) 
-            q.pop_back();
-        q.push_back(v);
+        while (sz(q) > 1 && v.isect(q[0]) <= q[0].isect(q[1])) 
+            q.pop_front();
+        q.push_front(v);
     }
     T query(T x) {
-        while (sz(q) > 1 && q[0].isect(q[1]) < x) 
-            q.pop_front();
-        auto [m, b] = q.front();
+        int s = sz(q)-1;
+        while (s > 0 && q[s].isect(q[--s]) < x) 
+            q.pop_back();
+        auto [m, b] = q.back();
         return m * x + b;
     }
 };
