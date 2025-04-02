@@ -3,7 +3,8 @@
 * Desc: Computes min/max at point for a set of linear functions in O(n + q).
 * Lines must be inserted in monotonic order of slopes, with increasing
 * giving max value and decreasing giving min value. Try to avoid inserting
-* two lines with the same slope.
+* two lines with the same slope. Queries must also be done in order of
+* non-decreasing x.
 * Test: https://codeforces.com/contest/311/problem/B
 */
 
