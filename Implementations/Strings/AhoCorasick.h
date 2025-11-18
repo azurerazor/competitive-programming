@@ -1,3 +1,9 @@
+/*
+* Source: own
+* Desc: aho-corasick that is in topological order. Used for multi-pattern matching.
+* Test: https://cses.fi/problemset/task/2102/
+*/
+
 #define ALPHA 26
 #define FL 'a'
  
