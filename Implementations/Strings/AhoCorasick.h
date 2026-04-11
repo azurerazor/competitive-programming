@@ -38,3 +38,4 @@ vector<node> build(vector<string>& s) {
     }
 
     return aho;
+}
